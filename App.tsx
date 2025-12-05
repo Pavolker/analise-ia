@@ -25,8 +25,11 @@ const App: React.FC = () => {
       const data = await analyzeTextForAI(inputText);
       setResult(data);
       setStatus(AnalysisStatus.COMPLETED);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      if (error.message?.includes("API key") || error.toString().includes("API key")) {
+        alert("Erro de Configuração: A Chave da API (API Key) não foi encontrada. \n\nSe você é o administrador, verifique se a variável 'VITE_GEMINI_API_KEY' está configurada corretamente no Netlify e faça um novo Deploy.");
+      }
       setStatus(AnalysisStatus.ERROR);
     }
   };
